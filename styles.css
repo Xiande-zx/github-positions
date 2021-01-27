@@ -1,0 +1,44 @@
+body {
+    background-color: #F2F2F2;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    margin-left: 2rem;
+}
+
+.location {
+    color: blue;
+}
+
+.items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.item {
+    width: 20rem;
+    margin: 30px;
+}
+
+.infoPosition {
+    position: relative;
+    z-index: -1;
+    margin-top: -25px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 2rem;
+    height: 15rem;
+}
+
+.logoImagen {
+    width: 20px;
+    height: 20px;
+}
