@@ -1,19 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <!-- main css -->
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
     <title>Document</title>
-</head>
+  </head>
+  <body id="app">
+    <div
+      :style="{backgroundImage: 'url(' + '/starter-code/assets/desktop/bg-pattern-header.svg' + ')'}"
+    ></div>
 
-<body id="app">
+    <div class="header m-0 p-0">
+      <div v-show="!showMoreInfo">
+    <input
+    type="text"
+    placeholder="Filter by title, companies, expertise..."
+    v-model="description"
+    @keyup.enter="getJobs"
+    />
+    <input
+    @keyup.enter="getJobs"
+    type="text"
+    v-model="location"
+    placeholder="Filter by location..."
+    />
+    <input type="checkbox" id="full-time" name="full-time" />
+    <label @click="filterJobs('fulltime-only')" for="full-time"
+    >Full Time Only</label
+    >
+    <button class="btn btn-primary">Search</button>
+    </div></div>
 
-    <nav class="navbar navbar-light bg-light">
+    <!-- <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand">Navbar</a>
             <form class="d-flex">
@@ -36,46 +66,119 @@
             </form>
 
         </div>
-    </nav>
+    </nav> -->
 
-    <div class="items container">
-
-        <div v-for="item in array" class="item">
-            <div class="logo" :style="{backgroundColor: randomColor()}">
-                <img class="logoImagen" :src="item.company_logo" alt="logo">
-            </div>
-            <div @click="moreInfo()" class="infoPosition" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                <p class="date">{{ item.created_at }} · {{ item.type}}</p>
-                <h5 class="title">{{item.title}}</h5>
-                <p class="companyName">{{item.company}}</p>
-                <p class="location">{{item.location}}</p>
-            </div>
+    <div class="items container" v-show="!showMoreInfo">
+      <div v-for="item in array" class="item">
+        <div @click="moreInfo(item.url)">
+          <div class="logo" :style="{backgroundColor: randomColor()}">
+            <img class="logoImagen" :src="item.company_logo" alt="logo" />
+          </div>
+          <div
+            class="infoPosition"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            <p class="date">
+              {{ timeSince(item.created_at) }} · {{ item.type}}
+            </p>
+            <h5 class="title">{{item.title}}</h5>
+            <p class="companyName">{{item.company}}</p>
+            <p class="location">{{item.location}}</p>
+          </div>
         </div>
+      </div>
 
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <img :src="imgCompany" alt="">
-                        <h5 class="modal-title" id="staticBackdropLabel">{{nameCompany}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><a
-                                :href="urlCompany"></a></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
+      <!-- <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      > -->
+        <!-- <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img :src="imgCompany" alt="" />
+              <h5 class="modal-title" id="staticBackdropLabel">
+                {{nameCompany}}
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                <a :href="urlCompany"></a>
+              </button>
             </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+    <div
+      class="container"
+      id="job-details"
+      v-show="showMoreInfo"
+
+    >
+        <div class="details-header container bg-white">
+          <div class="details-image-container" :style="{backgroundColor: randomColor()}">
+            <img class="details-image" :src="imgCompany" alt="">
+          </div>
+            <div>
+              <h2>{{ nameCompany }}</h2>
+            </div>
+            <a class="btn btn-primary" :href="urlCompany">Company Site</a>
+          </div>
+          <div class="details-content container my-4 p-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex flex-column">
+                <p class="date">
+                  {{ timeSince(time) }} · {{ type }}
+                </p>
+                <h2 class="title">{{ title }}</h2>
+                <p class="location">{{ location }}</p>
+              </div>
+              <a class="btn btn-primary" href="">Apply Now</a>
+            </div>
+            <div>
+              <p v-html="description"></p>
+            </div>
+          </div>
+          <div class="how-to-apply p-5">
+            <p v-html="howToApply"></p>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="p-5">
+              <p>{{ title }}</p>
+              <p>{{ nameCompany }}</p>
+            </div>
+            <button class="btn btn-success">Apply Now!</button>
+
+          </div>
         </div>
     </div>
 
+    </div>
+    
+     
+
     <script src="https://unpkg.com/vue@next"></script>
     <script type="module" src="app.js"></script>
-</body>
-
+  </body>
 </html>

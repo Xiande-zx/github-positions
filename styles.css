@@ -1,7 +1,78 @@
+:root {
+    --violet: rgb(158, 127, 102);
+    --light-violet: rgb(147, 155, 244);
+    --very-dark-blue: rgb(25, 32, 45);
+    --midnight: rgb(18, 23, 23);
+
+    --white: rgb(255, 255, 255);
+    --light-grey: rgb(244, 246, 248);
+    --gray: rgb(157, 174, 194);
+    --dark-grey: rgb(110, 128, 152);
+
+    --typo: 'Kumbh Sans', sans-serif;
+}
+
+html {
+    font-family: var(--typo);
+}
+
 body {
     background-color: #F2F2F2;
 }
 
+.how-to-apply {
+    background-color: var(--light-violet);
+    color: white;
+    width: 730px;
+    margin: 0 auto;
+    background-image: url(/starter-code/assets/desktop/bg-pattern-detail-footer.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.how-to-apply a {
+    color: white;
+    text-emphasis: none;
+}
+
+.details-content {
+    width: 730px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.details-header {
+    margin-top: -3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 730px;
+    height: 140px;
+    background-color: white;
+    
+}
+
+.details-image {
+    height: 100%;
+    width: auto;
+}
+
+.details-image-container {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    height: 161px;
+    width: 100%;
+    margin: 1.5rem auto;
+    background-image: url(starter-code/assets/desktop/bg-pattern-header.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
 .logo {
     width: 50px;
     height: 50px;
