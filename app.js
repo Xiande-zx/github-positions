@@ -3,13 +3,10 @@
 const app = Vue.createApp({
     data() {
         return {
-            array: [],
-            details: [],
+            jobList: [],
             baseUrl: 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json',
-            description: '',
-            location: '',
-            createdAt: '',
             showMoreInfo: false,
+            darkTheme: false,
             
 
 
@@ -30,21 +27,23 @@ const app = Vue.createApp({
         }
     },
     created() {
-        
-        // fetch(this.url)
-        // .then((res) => res.json())
-        // .then((data) => this.array = data);
-
-        fetch("positions.json")
-            .then(x => x.json())
-            .then(y => this.array = y);
+        fetch(this.baseUrl)
+        .then((res) => res.json())
+        .then((data) => this.jobList = data)
+        .catch(this.getFromLocal)
     },
 
     computed: {
-  
+        getAppTheme() {
+            return this.darkTheme;
+        }
     },
 
     methods: {
+        toggleTheme() {
+            this.darkTheme = !this.darkTheme;
+
+        },
         timeSince(date){
             var seconds = Math.floor((new Date() - new Date(date)) / 1000);
             var interval = seconds / 31536000;
@@ -70,47 +69,17 @@ const app = Vue.createApp({
             return Math.floor(seconds) + " seconds";
         },
 
-        moreInfo(url) {
-            // fetch('https://cors-anywhere.herokuapp.com/' + url + '.json')
-            //     .then(response => response.json())
-            //     .then(data => console.log(data))
-
-                        fetch('/details.json')
-                .then(response => response.json())
-                .then(data => this.getDetails(data))
+        getMoreInfo(job) {
+            this.getDetails(this.jobList[job]);
             this.showMoreInfo = true;
-
-
         },
-        randomColor(){
+
+
+        getRandomColor(){
             return "#"+Math.floor(Math.random()*16777215).toString(16);
         },
 
-        getJobs() {
-            this.location = location.replace(" ", "+");
-            this.description = description.replace(" ", "+");
-            let url;
-
-            if(this.description != '' && this.location != '') {
-                url = this.url + '?description=' + this.description + '&full_time=' + this.fullTime + '&location=' + this.location;
-                console.log(url);
-            }
-            else if(this.description != '') {
-                url = this.url + '?description=' + this.description + '&full_time=' + this.fullTime;
-                console.log(url);
-            }
-            else if(this.location != '') {
-                url = this.url + '?full_time=' + this.fullTime + '&location=' + this.location;
-                console.log(url);
-            }
-
-            // fetch(url)
-            //     .then(response => response.json())
-            //     .then(data => this.array = data)
-        },
-
         getDetails(data) {
-            console.log(data);
             this.imgCompany = data.company_logo;
             this.nameCompany = data.company;
             this.urlCompany = data.company_url;
@@ -120,6 +89,13 @@ const app = Vue.createApp({
             this.location = data.location;
             this.description = data.description;
             this.howToApply = data.how_to_apply
+        },
+
+        getFromLocal() {
+            console.log('API request returned an error. Getting jobs from local data!')
+            fetch("github-jobs.json")
+            .then(response => response.json())
+            .then(data => this.jobList = data);
         }
     }
 });

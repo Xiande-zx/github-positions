@@ -20,96 +20,52 @@ body {
     background-color: #F2F2F2;
 }
 
-.how-to-apply {
-    background-color: var(--light-violet);
-    color: white;
-    width: 730px;
-    margin: 0 auto;
-    background-image: url(/starter-code/assets/desktop/bg-pattern-detail-footer.svg);
+.job-item {
+    width: 350px;
+    height: 228px;
+}
+
+
+.header-img {
+    height: 161px;
+    background-image: url(starter-code/assets/mobile/bg-pattern-header.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.footer-img {
+    background-image: url(starter-code/assets/mobile/bg-pattern-detail-footer.svg);
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.how-to-apply a {
+.bg-light {
+    background-color: white;
+}
+
+.text-light {
     color: white;
-    text-emphasis: none;
 }
 
-.details-content {
-    width: 730px;
-    margin: 0 auto;
-    background-color: white;
+.header-title {
+    color: white;
 }
 
-.details-header {
-    margin-top: -3rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 730px;
-    height: 140px;
-    background-color: white;
+@media (min-width: 481px) {
+    .header-img {
+        background-image: url(starter-code/assets/tablet/bg-pattern-header.svg);
+    }
+}
+
+@media (min-width: 769px) {
+    .header-img {
+        background-image: url(starter-code/assets/desktop/bg-pattern-header.svg);
+        background-size: contain;
+    }
     
-}
-
-.details-image {
-    height: 100%;
-    width: auto;
-}
-
-.details-image-container {
-    width: 140px;
-    height: 140px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.header {
-    height: 161px;
-    width: 100%;
-    margin: 1.5rem auto;
-    background-image: url(starter-code/assets/desktop/bg-pattern-header.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-.logo {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    margin-left: 2rem;
-}
-
-.location {
-    color: blue;
-}
-
-.items {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.item {
-    width: 20rem;
-    margin: 30px;
-}
-
-.infoPosition {
-    position: relative;
-    z-index: -1;
-    margin-top: -25px;
-    background-color: white;
-    border-radius: 6px;
-    padding: 2rem;
-    height: 15rem;
-}
-
-.logoImagen {
-    width: 20px;
-    height: 20px;
+    .footer-img {
+        background-image: url(starter-code/assets/desktop/bg-pattern-detail-footer.svg);
+    }
 }
