@@ -37,16 +37,15 @@
     <div class="d-flex align-items-center justify-content-center rounded">
       <div class="bg-white py-3 px-4 border-end flex-fill">
         <label class="mx-2"><img src="starter-code/assets/desktop/icon-search.svg" alt=""></label>
-        <input class="border-0 w-75 px-4" type="text" placeholder="Filter by title, companies, expertise" v-model="description" @keyup.enter="getJobs" />
+        <input class="border-0 w-75 px-4" type="text" placeholder="Filter by title, companies, expertise" v-model="filterName" @keyup.enter="getJobs" key="description" />
       </div>
       <div class="bg-white py-3 px-3 border-end">
         <label class="mx-2"><img src="starter-code/assets/desktop/icon-location.svg" alt=""></label>
-        <input class="border-0" @keyup.enter="getJobs" type="text"
-          v-model="location" placeholder="Filter by location..." />
+        <input class="border-0" @keyup.enter="getJobs" type="text" v-model="filterLocation" placeholder="Filter by location..." key="location" />
       </div>
       <div class="bg-white py-3 px-4 flex-fill d-flex justify-content-around">
         <div class="form-check p-0">
-          <input class="form-check-input p-0" type="checkbox" value="" id="flexCheckDefault">
+          <input class="form-check-input p-0" type="checkbox" value="" id="flexCheckDefault" key="checkbox">
           <label class="form-check-label p-0" for="flexCheckDefault">
             Full Time Only
           </label>
@@ -60,10 +59,10 @@
 <!-- J O B  L I S T  C O N T A I N E R -->
 <!-- J O B  L I S T  C O N T A I N E R -->
   <div class="d-flex justify-content-around align-items-center flex-wrap container" v-if="!showMoreInfo">
-    <div v-for="(job, index) in jobList" class="m-2">
+    <div v-for="(job, index) in jobList" class="m-2 bg-white p-2 px-4">
       <div @click="getMoreInfo(index)" class="job-item">
         <div class="logo-container" :style="{backgroundColor: getRandomColor()}">
-          <img class="w-25" :src="job.company_logo" alt="logo" />
+          <img class="logo" :src="job.company_logo" alt="company-logo" />
         </div>
         <div class="infoPosition" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           <p class="date">

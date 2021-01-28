@@ -7,22 +7,18 @@ const app = Vue.createApp({
             baseUrl: 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json',
             showMoreInfo: false,
             darkTheme: false,
-            
-
-
-            showDetailsUrl: '',
-            filter: '',
-            fullTime: false,
-
-            imgCompany: "",
-            nameCompany: "",
-            urlCompany: "",
-            time: "",
-            type: "",
-            title: "",
-            location: "",
-            description: "",
-            howToApply: "",
+            filterLocation: null,
+            filterName: null,
+            fullTimeOnly: false,
+            imgCompany: '',
+            nameCompany: '',
+            urlCompany: '',
+            time: '',
+            type: '',
+            title: '',
+            location: '',
+            description: '',
+            howToApply: '',
 
         }
     },
