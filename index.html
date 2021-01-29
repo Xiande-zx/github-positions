@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +12,7 @@
   <script src="https://unpkg.com/vue@next" defer></script>
   <script type="module" src="app.js" defer></script>
 </head>
-<body id="app">
+<body id="app" class="bg-ligth-body">
   <!-- H E A D E R  -->
   <!-- H E A D E R  -->
   <!-- H E A D E R  -->
@@ -35,22 +34,22 @@
 <!-- S E A R C H  B A R -->
   <div id="search-bar" class="container mb-4" v-if="!showMoreInfo">
     <div class="d-flex align-items-center justify-content-center rounded">
-      <div class="bg-white py-3 px-4 border-end flex-fill">
+      <div class="py-3 px-4 border-end flex-fill" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
         <label class="mx-2"><img src="starter-code/assets/desktop/icon-search.svg" alt=""></label>
-        <input class="border-0 w-75 px-4" type="text" placeholder="Filter by title, companies, expertise" v-model="filterName" @keyup.enter="getJobs" key="description" />
+        <input class="border-0 w-75 px-4" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}" type="text" placeholder="Filter by title, companies, expertise" v-model="filterName" @keyup.enter="getJobs" key="description" />
       </div>
-      <div class="bg-white py-3 px-3 border-end">
+      <div class="py-3 px-3 border-end" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
         <label class="mx-2"><img src="starter-code/assets/desktop/icon-location.svg" alt=""></label>
-        <input class="border-0" @keyup.enter="getJobs" type="text" v-model="filterLocation" placeholder="Filter by location..." key="location" />
+        <input class="border-0" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}" @keyup.enter="getJobs" type="text" v-model="filterLocation" placeholder="Filter by location..." key="location" />
       </div>
-      <div class="bg-white py-3 px-4 flex-fill d-flex justify-content-around">
+      <div class="py-3 px-4 flex-fill d-flex justify-content-around" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
         <div class="form-check p-0">
-          <input class="form-check-input p-0" type="checkbox" value="" id="flexCheckDefault" key="checkbox">
-          <label class="form-check-label p-0" for="flexCheckDefault">
+          <input class="form-check-input p-0 checkbox-1" type="checkbox" id="flexCheckDefault" key="checkbox" checked >
+          <label class="form-check-label p-0 text-dark-gray" for="flexCheckDefault">
             Full Time Only
           </label>
         </div>
-        <button class="btn btn-primary">Search</button>
+        <button class="btn btn-primary button-1">Search</button>
       </div>
     </div>
   </div>
@@ -59,66 +58,71 @@
 <!-- J O B  L I S T  C O N T A I N E R -->
 <!-- J O B  L I S T  C O N T A I N E R -->
   <div class="d-flex justify-content-around align-items-center flex-wrap container" v-if="!showMoreInfo">
-    <div v-for="(job, index) in jobList" class="m-2 bg-white p-2 px-4">
-      <div @click="getMoreInfo(index)" class="job-item">
-        <div class="logo-container" :style="{backgroundColor: getRandomColor()}">
+    <div v-for="(job, index) in jobList" class="my-4"  :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
+      <div @click="getMoreInfo(index)" class="job-item p-2 px-4">
+        <div class="logo-container d-flex justify-content-center align-items-center">
           <img class="logo" :src="job.company_logo" alt="company-logo" />
         </div>
-        <div class="infoPosition" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          <p class="date">
+        <div>
+          <p class="text-dark-gray">
             {{ timeSince(job.created_at) }} · {{ job.type}}
           </p>
-          <h5 class="title">{{job.title}}</h5>
-          <p class="companyName">{{job.company}}</p>
-          <p class="location">{{job.location}}</p>
+          <p class="h6 fw-bold" :class="{'text-light': darkTheme}">{{job.title}}</p>
+          <p class="text-dark-gray">{{job.company}}</p>
+          <p class="text-violet fw-bold">{{job.location}}</p>
         </div>
       </div>
     </div>
   </div>
+  <!-- <div class="container d-flex justify-content-around align-items-center m-4" v-if="!showMoreInfo">
+    <button @click="showMoreJobs" class="btn btn-primary button-1">Show More</button>
+  </div> -->
 
 <!-- S E L E C T E D  J O B  D E T A I L S -->
 <!-- S E L E C T E D  J O B  D E T A I L S -->
 <!-- S E L E C T E D  J O B  D E T A I L S -->
   <div id="job-details" v-if="showMoreInfo">
-    <button class="btn btn-secondary" @click="showMoreInfo = false">Go Back</button>
-    <div class="container bg-white d-flex align-items-center justify-content-around">
-      <div :style="{backgroundColor: getRandomColor()}">
-        <img class="w-50" :src="imgCompany" alt="">
-      </div>
-      <div>
-        <h2>{{ nameCompany }}</h2>
-      </div>
-      <a class="btn btn-primary" :href="urlCompany">Company Site</a>
+    <div class="container mx-auto m-2">
+      <button class="btn btn-primary button-1 pr-4" @click="showMoreInfo = false">Go Back</button>
     </div>
-    <div class="container bg-white p-5 m-4 mx-auto">
+    <div class="container d-flex align-items-center justify-content-between px-5" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
+      <div class="d-flex justify-content-start align-items-center m-0">
+        <div class="m-0 p-0">
+          <img class="logo-details m-0" :src="imgCompany" alt="">
+        </div>
+        <div class="mx-4">
+          <p class="h2 fw-bold" :class="{'text-light': darkTheme}">{{ nameCompany }}</p>
+        </div>
+      </div>
+      <div class="p-4">
+        <a class="btn btn-primary button-1" :href="urlCompany">Company Site</a>
+      </div>
+    </div>
+    <div class="container p-5 m-4 mx-auto" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme, 'text-light': darkTheme}">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex flex-column">
           <p class="date">
             {{ timeSince(time) }} · {{ type }}
           </p>
-          <h2 class="title">{{ title }}</h2>
-          <p class="location">{{ location }}</p>
+          <p class="h2 fw-bold" :class="{'text-light': darkTheme}">{{ title }}</p>
+          <p class="text-violet fw-bold">{{ location }}</p>
         </div>
-        <a class="btn btn-primary" href="">Apply Now</a>
+        <a class="btn btn-primary button-1" :href="urlCompany">Apply Now</a>
       </div>
       <div>
         <p v-html="description"></p>
       </div>
     </div>
-    <div class="footer-img p-5 container">
-      <p class="text-light" v-html="howToApply"></p>
+    <div class="footer-img p-5 container text-light">
+      <p class="text-light link-light" v-html="howToApply"></p>
     </div>
-    <div class="d-flex justify-content-around align-items-center bg-white mt-4">
+    <div class="d-flex justify-content-around align-items-center mt-4 py-4" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
       <div class="p-2">
-        <p class="fw-bold m-0 p-0">{{ title }}</p>
-        <p class="m-0 p-0"> {{ nameCompany }}</p>
+        <p class="fw-bold m-0 p-0" :class="{'text-light': darkTheme}">{{ title }}</p>
+        <p class="m-0 p-0" :class="{'text-light': darkTheme}"> {{ nameCompany }}</p>
       </div>
-      <button class="btn btn-success">Apply Now!</button>
+      <a class="btn btn-primary button-1" :href="urlCompany">Apply Now</a>
     </div>
   </div>
-
-
-
 </body>
-
 </html>

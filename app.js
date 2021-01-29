@@ -4,6 +4,7 @@ const app = Vue.createApp({
     data() {
         return {
             jobList: [],
+            jobListFirst: [],
             baseUrl: 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json',
             showMoreInfo: false,
             darkTheme: false,
@@ -32,13 +33,22 @@ const app = Vue.createApp({
     computed: {
         getAppTheme() {
             return this.darkTheme;
+        },
+        getRandomColor() {
+            return this.generateRandomColor();
         }
     },
 
     methods: {
         toggleTheme() {
+            if(document.body.classList.contains('bg-ligth-body')) {
+                document.body.classList.remove('bg-ligth-body');
+                document.body.classList.add('bg-dark-body');
+            } else {
+                document.body.classList.add('bg-ligth-body');
+                document.body.classList.remove('bg-dark-body');  
+            }
             this.darkTheme = !this.darkTheme;
-
         },
         timeSince(date){
             var seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -69,10 +79,8 @@ const app = Vue.createApp({
             this.getDetails(this.jobList[job]);
             this.showMoreInfo = true;
         },
-
-
-        getRandomColor(){
-            return "#"+Math.floor(Math.random()*16777215).toString(16);
+        generateRandomColor(){
+            return '#' + Math.floor(Math.random()*16777215).toString(16);
         },
 
         getDetails(data) {

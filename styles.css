@@ -1,5 +1,5 @@
 :root {
-    --violet: rgb(158, 127, 102);
+    --violet: rgb(91, 104, 250);
     --light-violet: rgb(147, 155, 244);
     --very-dark-blue: rgb(25, 32, 45);
     --midnight: rgb(18, 23, 23);
@@ -20,13 +20,28 @@ body {
     background-color: var(--light-grey);
 }
 
+a {
+    color: var(--violet);
+}
+
+.link-light {
+    color: var(--white);
+}
+
+
 .logo-container {
     width: 50px;
     height: 50px;
+    margin-top: -2.5rem;
 }
 
 .logo {
-    height: 100%;
+    height: 25px;
+    
+}
+
+.logo-details {
+    height: 70px;
     width: auto;
 
 }
@@ -39,9 +54,9 @@ body {
 .header-img {
     height: 161px;
     background-image: url(starter-code/assets/mobile/bg-pattern-header.svg);
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: top;
+    background-position: center;
 }
 
 .footer-img {
@@ -55,13 +70,50 @@ body {
     background-color: white;
 }
 
+.bg-ligth-body {
+    background-color: var(--light-grey);
+}
+
+.bg-dark-body {
+    background-color: var(--midnight);
+}
+
+.bg-dark {
+    background-color: var(--very-dark-blue);
+}
+
 .text-light {
     color: white;
+}
+
+.text-light-gray {
+    color: var(--light-grey);
+}
+
+.text-dark-gray {
+    color: var(--dark-grey);
+}
+
+.text-violet {
+    color: var(--violet);
 }
 
 .header-title {
     color: white;
 }
+
+.button-1 {
+    background-color: var(--violet);
+}
+
+.button-1:hover {
+    background-color: var(--light-violet);
+}
+
+.checkbox-1:checked{
+    background-color: var(--violet);
+}
+
 
 @media (min-width: 481px) {
     .header-img {
@@ -73,6 +125,7 @@ body {
     .header-img {
         background-image: url(starter-code/assets/desktop/bg-pattern-header.svg);
         background-size: contain;
+        background-position: top;
     }
     
     .footer-img {
