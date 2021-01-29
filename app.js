@@ -3,49 +3,60 @@
 const app = Vue.createApp({
     data() {
         return {
-            array: [],
-            details: [],
+            jobList: [],
+            jobListFirst: [],
+            jobListBase: [],
             baseUrl: 'https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json',
-            description: '',
-            location: '',
-            createdAt: '',
             showMoreInfo: false,
-            
-
-
-            showDetailsUrl: '',
-            filter: '',
-            fullTime: false,
-
-            imgCompany: "",
-            nameCompany: "",
-            urlCompany: "",
-            time: "",
-            type: "",
-            title: "",
-            location: "",
-            description: "",
-            howToApply: "",
+            darkTheme: false,
+            filterLocation: "",
+            filterName: "",
+            fullTimeOnly: false,
+            imgCompany: '',
+            nameCompany: '',
+            urlCompany: '',
+            time: '',
+            type: '',
+            title: '',
+            location: '',
+            description: '',
+            howToApply: '',
 
         }
     },
     created() {
-        
-        // fetch(this.url)
-        // .then((res) => res.json())
-        // .then((data) => this.array = data);
+        fetch(this.baseUrl)
+            .then((res) => res.json())
+            .then((data) => this.jobList = data)
+            .catch(this.getFromLocal)
 
-        fetch("positions.json")
-            .then(x => x.json())
-            .then(y => this.array = y);
+        fetch(this.baseUrl)
+            .then((res) => res.json())
+            .then((data) => this.jobListBase = data)
+            .catch(this.getFromLocalBase)
     },
 
     computed: {
-  
+        getAppTheme() {
+            return this.darkTheme;
+        },
+        getRandomColor() {
+            return this.generateRandomColor();
+        }
     },
 
     methods: {
-        timeSince(date){
+        toggleTheme() {
+            if (document.body.classList.contains('bg-ligth-body')) {
+                document.body.classList.remove('bg-ligth-body');
+                document.body.classList.add('bg-dark-body');
+            } else {
+                document.body.classList.add('bg-ligth-body');
+                document.body.classList.remove('bg-dark-body');
+            }
+            this.darkTheme = !this.darkTheme;
+        },
+        timeSince(date) {
             var seconds = Math.floor((new Date() - new Date(date)) / 1000);
             var interval = seconds / 31536000;
             if (interval > 1) {
@@ -70,47 +81,15 @@ const app = Vue.createApp({
             return Math.floor(seconds) + " seconds";
         },
 
-        moreInfo(url) {
-            // fetch('https://cors-anywhere.herokuapp.com/' + url + '.json')
-            //     .then(response => response.json())
-            //     .then(data => console.log(data))
-
-                        fetch('/details.json')
-                .then(response => response.json())
-                .then(data => this.getDetails(data))
+        getMoreInfo(job) {
+            this.getDetails(this.jobList[job]);
             this.showMoreInfo = true;
-
-
         },
-        randomColor(){
-            return "#"+Math.floor(Math.random()*16777215).toString(16);
-        },
-
-        getJobs() {
-            this.location = location.replace(" ", "+");
-            this.description = description.replace(" ", "+");
-            let url;
-
-            if(this.description != '' && this.location != '') {
-                url = this.url + '?description=' + this.description + '&full_time=' + this.fullTime + '&location=' + this.location;
-                console.log(url);
-            }
-            else if(this.description != '') {
-                url = this.url + '?description=' + this.description + '&full_time=' + this.fullTime;
-                console.log(url);
-            }
-            else if(this.location != '') {
-                url = this.url + '?full_time=' + this.fullTime + '&location=' + this.location;
-                console.log(url);
-            }
-
-            // fetch(url)
-            //     .then(response => response.json())
-            //     .then(data => this.array = data)
+        generateRandomColor() {
+            return '#' + Math.floor(Math.random() * 16777215).toString(16);
         },
 
         getDetails(data) {
-            console.log(data);
             this.imgCompany = data.company_logo;
             this.nameCompany = data.company;
             this.urlCompany = data.company_url;
@@ -120,6 +99,35 @@ const app = Vue.createApp({
             this.location = data.location;
             this.description = data.description;
             this.howToApply = data.how_to_apply
+        },
+
+        getFromLocal() {
+            console.log('API request returned an error. Getting jobs from local data!')
+            fetch("github-jobs.json")
+                .then(response => response.json())
+                .then(data => this.jobList = data);
+        }, 
+        getFromLocalBase() {
+            console.log('API request returned an error. Getting jobs from local data!')
+            fetch("github-jobs.json")
+                .then(response => response.json())
+                .then(data => this.jobListBase = data);
+        },
+
+        getJobs() {
+
+            if (this.fullTime) {
+    
+                this.jobList = this.jobListBase.filter(jobs =>
+                    jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) && jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase()) && jobs.type == "Full time"
+                );
+            } else { 
+                this.jobList = this.jobListBase.filter(jobs =>
+                    jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) && jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase())
+                );
+                
+            }
+
         }
     }
 });
