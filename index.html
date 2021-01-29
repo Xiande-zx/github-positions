@@ -36,20 +36,20 @@
     <div class="d-flex align-items-center justify-content-center rounded">
       <div class="py-3 px-4 border-end flex-fill" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
         <label class="mx-2"><img src="starter-code/assets/desktop/icon-search.svg" alt=""></label>
-        <input class="border-0 w-75 px-4" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}" type="text" placeholder="Filter by title, companies, expertise" v-model="filterName" @keyup.enter="getJobs" key="description" />
+        <input class="border-0 w-75 px-4" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}" type="text" placeholder="Filter by title, companies, expertise" v-model="filterName"  key="description" />
       </div>
       <div class="py-3 px-3 border-end" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
         <label class="mx-2"><img src="starter-code/assets/desktop/icon-location.svg" alt=""></label>
-        <input class="border-0" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}" @keyup.enter="getJobs" type="text" v-model="filterLocation" placeholder="Filter by location..." key="location" />
+        <input class="border-0" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}"  type="text" v-model="filterLocation" placeholder="Filter by location..." key="location" />
       </div>
       <div class="py-3 px-4 flex-fill d-flex justify-content-around" :class="{'bg-light': !darkTheme, 'bg-dark': darkTheme}">
         <div class="form-check p-0">
-          <input class="form-check-input p-0 checkbox-1" type="checkbox" id="flexCheckDefault" key="checkbox" checked >
+          <input class="form-check-input p-0 checkbox-1" type="checkbox" id="flexCheckDefault" key="checkbox" v-model="fullTimeOnly" >
           <label class="form-check-label p-0 text-dark-gray" for="flexCheckDefault">
             Full Time Only
           </label>
         </div>
-        <button class="btn btn-primary button-1">Search</button>
+        <button class="btn btn-primary button-1" @click="getJobs()">Search</button>
       </div>
     </div>
   </div>
