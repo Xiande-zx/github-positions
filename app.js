@@ -1,4 +1,3 @@
-// import { nanoid } from 'https://cdn.jsdelivr.net/npm/nanoid/nanoid.js'
 
 const app = Vue.createApp({
     data() {
@@ -88,7 +87,9 @@ const app = Vue.createApp({
         generateRandomColor() {
             return '#' + Math.floor(Math.random() * 16777215).toString(16);
         },
-
+        toggleFullTime() {
+            this.fullTimeOnly = !this.fullTimeOnly
+        },
         getDetails(data) {
             this.imgCompany = data.company_logo;
             this.nameCompany = data.company;
@@ -100,34 +101,39 @@ const app = Vue.createApp({
             this.description = data.description;
             this.howToApply = data.how_to_apply
         },
-
         getFromLocal() {
             console.log('API request returned an error. Getting jobs from local data!')
             fetch("github-jobs.json")
                 .then(response => response.json())
                 .then(data => this.jobList = data);
-        }, 
+        },
         getFromLocalBase() {
             console.log('API request returned an error. Getting jobs from local data!')
             fetch("github-jobs.json")
                 .then(response => response.json())
                 .then(data => this.jobListBase = data);
         },
-
         getJobs() {
-
-            if (this.fullTime) {
-    
-                this.jobList = this.jobListBase.filter(jobs =>
-                    jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) && jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase()) && jobs.type == "Full time"
-                );
-            } else { 
-                this.jobList = this.jobListBase.filter(jobs =>
-                    jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) && jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase())
-                );
-                
+            if (this.fullTimeOnly) {
+                if (this.filterName != '' && this.filterLocation != '') {
+                    this.jobList = this.jobListBase.filter((jobs) => (jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) || jobs.description.toLowerCase().includes(this.filterName.toLowerCase())) && jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase()) && jobs.type == 'Full Time');
+                } else if (this.filterName != '') {
+                    this.jobList = this.jobListBase.filter((jobs) => (jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) || jobs.description.toLowerCase().includes(this.filterName.toLowerCase())) && jobs.type == 'Full Time');
+                } else if (this.filterLocation != '') {
+                    this.jobList = this.jobListBase.filter((jobs) => jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase()) && jobs.type == 'Full Time');
+                } else {
+                    this.jobList = this.jobListBase.filter((jobs) => jobs.type == 'Full Time');
+                }
+            } else {
+                if (this.filterName != '' && this.filterLocation != '') {
+                    this.jobList = this.jobListBase.filter((jobs) => (jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) || jobs.description.toLowerCase().includes(this.filterName.toLowerCase())) && jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase()));
+                }
+                else if (this.filterName != '') {
+                    this.jobList = this.jobListBase.filter((jobs) => (jobs.title.toLowerCase().includes(this.filterName.toLowerCase()) || jobs.description.toLowerCase().includes(this.filterName.toLowerCase())));
+                } else {
+                    this.jobList = this.jobListBase.filter((jobs) => jobs.location.toLowerCase().includes(this.filterLocation.toLowerCase()));
+                }
             }
-
         }
     }
 });

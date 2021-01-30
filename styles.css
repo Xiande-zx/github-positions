@@ -24,10 +24,19 @@ a {
     color: var(--violet);
 }
 
+#search-bar {
+    margin-top: -4rem;
+}
+
 .link-light {
     color: var(--white);
 }
 
+.how-to-apply a {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: bold;
+}
 
 .logo-container {
     width: 50px;
